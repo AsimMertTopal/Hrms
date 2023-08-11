@@ -9,20 +9,19 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="jobPosition")
-public class JobPosition {
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-@Column(name="jobPosition_id")
- private int id;
+@Table(name="city")
+public class City {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="city_id")
+	private int id;
+	
+	@Column(name="city_name")
+	private String cityName;
 
-
-@Column(name="jobPosition_name")
- private String jobName;
- 
 }

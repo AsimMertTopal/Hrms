@@ -9,6 +9,7 @@ import Hrms.business.abstracts.JobPositionService;
 import Hrms.core.utilities.results.DataResult;
 import Hrms.core.utilities.results.ErrorResult;
 import Hrms.core.utilities.results.Result;
+import Hrms.core.utilities.results.SuccessDataResult;
 import Hrms.dataAccess.abstracts.JobPositionDao;
 import Hrms.entities.concretes.JobPosition;
 @Service
@@ -39,7 +40,7 @@ public class JobPositionManager implements JobPositionService {
 
 	@Override
 	public Result delete(JobPosition jobPosition) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -52,8 +53,15 @@ public class JobPositionManager implements JobPositionService {
 
 	@Override
 	public DataResult<List<JobPosition>> getByJobName(String jobName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		return new SuccessDataResult<List<JobPosition>>
+		(this.jobPositionDao.getByJobName(jobName),"İş Pozisyonu İsmi Getirildi.");
+		 }
 
+
+	@Override
+	public DataResult<List<JobPosition>> findAll() {
+		return new SuccessDataResult<List<JobPosition>>
+		(this.jobPositionDao.findAll(),"İş Pozisyonları Listelendi.");
+	} 
+      
 }

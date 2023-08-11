@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,11 +41,16 @@ public class JobPositionController {
 		return this.jobPositionService.add(jobPosition);
 		
 	} 
-	@PostMapping("/get")
+	@PostMapping("/getJobPositionName")
 	DataResult <List<JobPosition>> getByJobName(@RequestBody  String jobName) {
 		return this.jobPositionService.getByJobName(jobName);
 		
 	} 
+	@GetMapping("/getJobPosition")
+	public DataResult<List<JobPosition>> findAll(){
+		return this.jobPositionService.findAll();
+		
+	}
 	
 	
 	

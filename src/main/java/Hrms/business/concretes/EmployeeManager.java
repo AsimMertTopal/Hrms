@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import Hrms.business.abstracts.EmployeeService;
 import Hrms.core.utilities.MailService;
+import Hrms.core.utilities.results.DataResult;
+import Hrms.core.utilities.results.SuccessDataResult;
 import Hrms.dataAccess.abstracts.EmployeeDao;
 import Hrms.entities.concretes.Employee;
 
@@ -89,6 +91,13 @@ public class EmployeeManager implements EmployeeService {
 	public List<Employee> getAll() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public DataResult<List<Employee>> findAll() {
+		
+		return new SuccessDataResult<List<Employee>> 
+		 (this.employeeDao.findAll());
 	}
 
 }

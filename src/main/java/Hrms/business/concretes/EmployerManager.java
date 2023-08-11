@@ -7,26 +7,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import Hrms.business.abstracts.EmployerService;
+import Hrms.core.utilities.MailService;
 import Hrms.core.utilities.results.DataResult;
 import Hrms.core.utilities.results.ErrorDataResult;
 import Hrms.core.utilities.results.ErrorResult;
 import Hrms.core.utilities.results.Result;
 import Hrms.core.utilities.results.SuccessDataResult;
 import Hrms.core.utilities.results.SuccessResult;
+import Hrms.dataAccess.abstracts.EmployeeDao;
 import Hrms.dataAccess.abstracts.EmployerDao;
 import Hrms.entities.concretes.Employer;
+
 
 
 @Service
 public class EmployerManager implements EmployerService{
 	EmployerDao employerDao;
-	
+	MailService mailService;
 	
 	@Autowired
-	public EmployerManager( EmployerDao employerDao) {
+	public EmployerManager( EmployerDao employerDao,MailService mailService) {
 		this.employerDao=employerDao;
-		
+		this.mailService=mailService;
 	}
+	
+
 	
 	@Override
 	public Result add(Employer employer) {
@@ -44,34 +49,40 @@ public class EmployerManager implements EmployerService{
 			employerSignUp.setPassword(employer.getPassword());
 			employerSignUp.setPasswordRepate(employer.getPasswordRepate());
 			employerSignUp.setEmployerStatus(0);
+			mailService.postMail("E mail Hesabınıza Aktivasyon Linki Gönderildi ");
+			mailService.isCheckMail(true);
 			employerDao.save(employer);
 			return new SuccessResult("İş Veren Eklendi");
 			
 		}else {
 			
 			String mail[] = employer.getEMail().split("@");
-			String webDomain[] = employer.getWebSite().split("\\.");		
-			System.out.println(webDomain[1]);
-			System.out.println(mail[0].contains(webDomain[1]));
-			List<Employer> existingList=this.employerDao.findByeMail(employer.getEMail());		
-			 if(!existingList.isEmpty() || !employer.getPassword().equals(employer.getPasswordRepate()) || !mail[0].contains(webDomain[1])) {		 
-				 return new ErrorResult("Kullanıcı bilgileri Hatalı E mail ya da şifre");
-			 }
+			String webDomain[] = employer.getWebSite().split("\\.");  
+
+			if (webDomain.length < 2) {
+			    return new ErrorResult("Web sitesi bilgisi hatalı formatlı");
+			}
+
+			List<Employer> existingList=this.employerDao.findByeMail(employer.getEMail());  
+			if(!existingList.isEmpty() || !employer.getPassword().equals(employer.getPasswordRepate()) || !mail[0].contains(webDomain[1])) {  
+			    return new ErrorResult("Kullanıcı bilgileri Hatalı E mail ya da şifre");
+			}
+
+			}
 			
-			
-		}
-		employerSignUp.setCompanyName(employer.getCompanyName());
-		employerSignUp.setEMail(employer.getEMail());
-		employerSignUp.setTelephoneNumber(employer.getTelephoneNumber());
-		employerSignUp.setPassword(employer.getPassword());
-		employerSignUp.setPasswordRepate(employer.getPasswordRepate()); 
-		employerSignUp.setEmployerStatus(0);
-		employerDao.save(employer);
-		return new SuccessResult("İş Veren Eklendi");
-	}                           
+			employerSignUp.setCompanyName(employer.getCompanyName());
+			employerSignUp.setEMail(employer.getEMail());
+			employerSignUp.setTelephoneNumber(employer.getTelephoneNumber());
+			employerSignUp.setPassword(employer.getPassword());
+			employerSignUp.setPasswordRepate(employer.getPasswordRepate()); 
+			employerSignUp.setEmployerStatus(0);
+			employerDao.save(employer);
+			return new SuccessResult("İş Veren Eklendi");
+
+		}}                           
 	
 		
-	}
+	
 
 
 
@@ -83,7 +94,9 @@ public class EmployerManager implements EmployerService{
 		if(zeroStatus.isEmpty()) {
 			return new ErrorDataResult<List<Employer>>("Liste Getirilemedi");
 		}		
-		return new SuccessDataResult<List<Employer>>(zeroStatus, "Data Listelendi", true);
+		return new SuccessDataResult<List<Employer>>
+		(this.employerDao.getByemployerStatus(0),"Onay Bekleyen Kullanıcılar Getirildi");	
+		
 	}
 
 	@Override
@@ -108,5 +121,13 @@ public class EmployerManager implements EmployerService{
 		
 		
 	}
+
+@Override
+	public DataResult<List<Employer>> findAll() {
+		 return new SuccessDataResult<List<Employer>>
+		 (this.employerDao.findAll(),"İş Verenler Listelendi");
+	}
+
+
 
 }

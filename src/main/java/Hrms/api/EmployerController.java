@@ -15,6 +15,7 @@ import Hrms.core.utilities.results.DataResult;
 import Hrms.core.utilities.results.Result;
 import Hrms.entities.concretes.Employer;
 
+
 @Configuration
 @RestController
 @RequestMapping("api/employeer")
@@ -42,6 +43,10 @@ public class EmployerController {
 		return this.employerService.updateStatus(id);
 		   
 	   }
+	@GetMapping("/getAllEmployer")
+	public DataResult<List<Employer>>findAll(){
+		return this.employerService.findAll();
+	}
 	
 	
 

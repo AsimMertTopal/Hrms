@@ -14,7 +14,6 @@ import Hrms.core.utilities.results.ErrorResult;
 import Hrms.core.utilities.results.Result;
 import Hrms.core.utilities.results.SuccessDataResult;
 import Hrms.core.utilities.results.SuccessResult;
-import Hrms.dataAccess.abstracts.EmployeeDao;
 import Hrms.dataAccess.abstracts.EmployerDao;
 import Hrms.entities.concretes.Employer;
 
@@ -36,6 +35,7 @@ public class EmployerManager implements EmployerService{
 	@Override
 	public Result add(Employer employer) {
 	Employer employerSignUp =new Employer();
+	//try catch
 	List<Employer> employerList = this.employerDao.findAll();
 	boolean eMailRules = Pattern.matches("^[A-Za-z0-9+_.-]+@(.+)$", employer.getEMail());
 	if (!eMailRules){
@@ -90,9 +90,8 @@ public class EmployerManager implements EmployerService{
 	public Result notSave() {
 		List<Employer> zeroStatus;
 		zeroStatus = this.employerDao.getByemployerStatus(0);
-		System.out.println(zeroStatus);
 		if(zeroStatus.isEmpty()) {
-			return new ErrorDataResult<List<Employer>>("Liste Getirilemedi");
+			return new ErrorDataResult<List<Employer>>("Liste Boş");
 		}		
 		return new SuccessDataResult<List<Employer>>
 		(this.employerDao.getByemployerStatus(0),"Onay Bekleyen Kullanıcılar Getirildi");	

@@ -8,13 +8,14 @@ import Hrms.entities.concretes.Employer;
 
 
 public interface EmployerDao extends JpaRepository<Employer, Integer>{
-	
+	Employer getBycompanyName(String companyName);
 	Employer getById(int id);
-	
 	List<Employer>findAll();
 	List<Employer>findBywebSiteStartingWith(String webSite);
 	List<Employer>findByeMail(String eMail);
 	List<Employer> getByemployerStatus(int employerStatus);
+	
+	
 
 	
 

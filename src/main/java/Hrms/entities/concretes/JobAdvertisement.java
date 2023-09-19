@@ -1,11 +1,17 @@
 package Hrms.entities.concretes;
 
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,11 +38,15 @@ public class JobAdvertisement {
 	@Column(name="jobAdvertisement_wage")
 	private double wage;
 	
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="jobAdvertisement_releaseDate")
-	private String releaseDate;
+	private Date releaseDate;
 	
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="jobAdvertisement_applicationDeadline")
-	private String applicationDeadline;
+	private Date applicationDeadline;
 	
 	@Column(name="jobAdvertisement_openPositionCount")
 	@NotBlank
@@ -45,7 +55,6 @@ public class JobAdvertisement {
 	@Column(name="jobAdvertisement_jobAdvertisementStatus")
 	private int jobAdvertisementStatus;
 	
-
 	
 	@Column(name="employer_id")
 	private int  employerId;

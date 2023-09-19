@@ -4,7 +4,6 @@ import java.util.List;
 
 import Hrms.core.utilities.results.DataResult;
 import Hrms.core.utilities.results.Result;
-import Hrms.entities.concretes.Employer;
 import Hrms.entities.concretes.JobPosition;
 
 public interface JobPositionService {

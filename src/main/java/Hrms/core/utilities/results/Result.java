@@ -1,9 +1,5 @@
 package Hrms.core.utilities.results;
 
-import java.util.List;
-
-import Hrms.entities.concretes.Employer;
-
 public class Result {
 	   private boolean success;
 	   private String message;

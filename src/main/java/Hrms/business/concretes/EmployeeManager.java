@@ -29,15 +29,13 @@ public class EmployeeManager implements EmployeeService {
 	@Override
 	public boolean add(Employee employee) {
 		Employee employee3 = new Employee();
-
+		//try catch
 		List<Employee> employeeList = this.employeeDao.findAll();
-
 		boolean a = Pattern.matches("^[A-Za-z0-9+_.-]+@(.+)$", employee.getEMail());
 		if (!a) {
 			System.out.println("Mail adresinde kullanılan karakterler hatalı !");
 			return false;
 		} else {
-			
 			if (employeeList.isEmpty()) {
 				employee3.setBirthYear(employee.getBirthYear());
 				employee3.setEMail(employee.getEMail());
@@ -95,7 +93,7 @@ public class EmployeeManager implements EmployeeService {
 
 	@Override
 	public DataResult<List<Employee>> findAll() {
-		
+		//try catch
 		return new SuccessDataResult<List<Employee>> 
 		 (this.employeeDao.findAll());
 	}
